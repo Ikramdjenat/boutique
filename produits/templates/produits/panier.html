@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Panier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff5f8;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            color: #c71585;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #c71585;
+            color: white;
+        }
+
+        tr:last-child td {
+            font-weight: bold;
+        }
+
+        .btn-retour {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: #c71585;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-retour:hover {
+            background-color: #a8126c;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🛒 Votre Panier</h1>
+
+    {% if produits %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix unitaire (€)</th>
+                    <th>Quantité</th>
+                    <th>Total (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in produits %}
+                <tr>
+                    <td>{{ item.produit.nom }}</td>
+                    <td>{{ item.produit.prix }}</td>
+                    <td>{{ item.quantite }}</td>
+                    <td>{{ item.total }}</td>
+                </tr>
+                {% endfor %}
+
+
+                <tr>
+                    <td colspan="3">Total général :</td>
+                    <td>{{ total }}</td>
+                </tr>
+            </tbody>
+            <tbody>
+    {% for item in produits %}
+    <tr>
+        <td>{{ item.produit.nom }}</td>
+        <td>{{ item.produit.prix }}</td>
+        <td>{{ item.quantite }}</td>
+        <td>{{ item.total }}</td>
+        <td>
+            <a href="{% url 'supprimer_du_panier' item.produit.id %}">❌ Supprimer</a>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3"><strong>Total général :</strong></td>
+        <td><strong>{{ total }}</strong></td>
+        <td></td>
+    </tr>
+            <tr>
+    <td colspan="3">Sous-total :</td>
+    <td>{{ sous_total }} €</td>
+</tr>
+<tr>
+    <td colspan="3">Frais de livraison :</td>
+    <td>{{ frais_livraison }} €</td>
+</tr>
+<tr>
+    <td colspan="3">Remise (10%) :</td>
+    <td>-{{ montant_remise }} €</td>
+</tr>
+<tr>
+    <td colspan="3"><strong>Total général :</strong></td>
+    <td><strong>{{ total }} €</strong></td>
+</tr>
+
+</tbody>
+
+        </table>
+    {% else %}
+        <p style="text-align:center;">Votre panier est vide.</p>
+    {% endif %}
+
+<a href="{% url 'liste_produits' %}">Continuer vos achats</a>
+
+
+</body>
+</html>
